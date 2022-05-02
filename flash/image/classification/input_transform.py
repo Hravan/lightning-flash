@@ -47,11 +47,11 @@ class ImageClassificationInputTransform(InputTransform):
     std: Union[float, Tuple[float, float, float]] = (0.229, 0.224, 0.225)
 
     def input_per_sample_transform(self):
-        return T.Compose([T.ToTensor(), T.Resize(self.image_size), T.Normalize(self.mean, self.std)])
+        return T.Compose([T.Resize(self.image_size), T.Normalize(self.mean, self.std), T.ToTensor()])
 
     def train_input_per_sample_transform(self):
         return T.Compose(
-            [T.ToTensor(), T.Resize(self.image_size), T.Normalize(self.mean, self.std), T.RandomHorizontalFlip()]
+            [T.Resize(self.image_size), T.RandomHorizontalFlip(), T.ToTensor(), T.Normalize(self.mean, self.std)]
         )
 
     def target_per_sample_transform(self) -> Callable:
